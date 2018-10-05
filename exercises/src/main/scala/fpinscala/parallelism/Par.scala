@@ -89,8 +89,8 @@ object Par {
 
   def choiceMap[K, V](key: Par[K])(choices: Map[K, Par[V]]): Par[V] =
     es => {
-      val key = run(es)(key).get
-      run(es)(choices(key))
+      val k = run(es)(key).get
+      run(es)(choices(k))
     }
 
   def choiceWithChoiceMap[A](cond: Par[Boolean])(t: Par[A], f: Par[A]): Par[A] =
