@@ -182,6 +182,12 @@ object Nonblocking {
     def flatMapViaJoin[A, B](p: Par[A])(f: A => Par[B]): Par[B] =
       join(map(p)(f))
 
+    def parMap[A, B](as: List[A])(f: A => B): Par[List[B]] =
+      sequence(as.map(asyncF(f)))
+
+    def parMap[A, B](as: IndexedSeq[A])(f: A => B): Par[IndexedSeq[B]] =
+      sequenceBalanced(as.map(asyncF(f)))
+
     /* Gives us infix syntax for `Par`. */
     implicit def toParOps[A](p: Par[A]): ParOps[A] = new ParOps(p)
 
